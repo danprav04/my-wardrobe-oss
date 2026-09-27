@@ -1,0 +1,48 @@
+{
+	"name": "my-wardrobe",
+	"private": true,
+	"version": "0.0.1",
+	"type": "module",
+	"license": "MIT",
+	"scripts": {
+		"dev": "vite dev",
+		"dev:all": "start-dev.bat",
+		"dev:stop": "stop-dev.bat",
+		"build": "vite build",
+		"preview": "vite preview",
+		"prepare": "svelte-kit sync || echo ''",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"db:push": "drizzle-kit push",
+		"db:generate": "drizzle-kit generate",
+		"db:migrate": "drizzle-kit migrate",
+		"db:studio": "drizzle-kit studio",
+		"ai:start": "start-ai-only.bat",
+		"ai:stop": "stop-ai.bat"
+	},
+	"devDependencies": {
+		"@sveltejs/adapter-node": "^5.5.4",
+		"@sveltejs/kit": "^2.63.0",
+		"@sveltejs/vite-plugin-svelte": "^7.1.2",
+		"@tailwindcss/vite": "^4.3.0",
+		"@types/node": "^22",
+		"drizzle-kit": "^0.31.10",
+		"drizzle-orm": "^0.45.2",
+		"postgres": "^3.4.9",
+		"svelte": "^5.56.1",
+		"svelte-check": "^4.6.0",
+		"tailwindcss": "^4.3.0",
+		"typescript": "^6.0.3",
+		"vite": "^8.0.16"
+	},
+	"dependencies": {
+		"@heyputer/puter.js": "^2.6.3",
+		"@lucide/svelte": "^1.47.0",
+		"cloudinary": "^2.11.0",
+		"sharp": "^0.35.4"
+	},
+	"overrides": {
+		"cookie": "^0.7.2",
+		"esbuild": "^0.25.0"
+	}
+}

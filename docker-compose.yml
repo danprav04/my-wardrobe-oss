@@ -1,0 +1,73 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USER:-wardrobe}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-wardrobe_secret_pass}
+      POSTGRES_DB: ${DB_NAME:-wardrobe}
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./drizzle/0000_familiar_chimera.sql:/docker-entrypoint-initdb.d/01_init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U wardrobe -d wardrobe"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  local-ai:
+    build:
+      context: ./local-ai
+      dockerfile: Dockerfile
+    container_name: mywardrobe-local-ai
+    restart: always
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    ports:
+      - "127.0.0.1:8000:8000"
+    volumes:
+      - ./local-ai:/app
+      - "${COMFYUI_MODELS_DIR:-./models}:/models:ro"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - CUDA_VISIBLE_DEVICES=0
+
+  app:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "4848:3000"
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=${DATABASE_URL:-postgresql://wardrobe:${DB_PASSWORD:-wardrobe_secret_pass}@db:5432/wardrobe}
+      - SESSION_SECRET=${SESSION_SECRET}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - GEMINI_IMAGE_API_KEY=${GEMINI_IMAGE_API_KEY}
+      - PUTER_AUTH_TOKEN=${PUTER_AUTH_TOKEN}
+      - PUTER_AUTH_TOKENS=${PUTER_AUTH_TOKENS}
+      - HF_TOKEN=${HF_TOKEN}
+      - CLOUDINARY_URL=${CLOUDINARY_URL}
+      - STORAGE_PATH=/app/data
+      - TRYON_BACKEND=hf-spaces
+      - LOCAL_AI_URL=http://local-ai:8000
+      - NODE_OPTIONS=--max-old-space-size=192
+      - BODY_SIZE_LIMIT=20M
+      - AUTH_USERNAME=${AUTH_USERNAME}
+      - AUTH_PASSWORD=${AUTH_PASSWORD}
+    volumes:
+      - wardrobe-data:/app/data
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  pgdata:
+  wardrobe-data:

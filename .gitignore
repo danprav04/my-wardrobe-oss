@@ -1,0 +1,63 @@
+node_modules
+
+# Output
+.output
+.vercel
+.netlify
+.wrangler
+/.svelte-kit
+/build
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env
+.env
+.env.*
+!.env.example
+!.env.test
+
+# Vite
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+
+# Data Storage
+/data
+data/
+
+# Wardrobe Photos & Local Test Media
+wardrobe pictures/
+/wardrobe pictures
+garment-cuts/flow_results/upscayl*/
+/*.jpg
+/*.jpeg
+/*.png
+item_*.jpg
+
+# Logs
+*.log
+local-ai/*.log
+
+# Local AI Engine & Models
+local-ai/.venv/
+local-ai/ComfyUI/
+local-ai/**/__pycache__/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+models/
+
+# Backups & Archives
+*.sql.gz
+*.tar.gz
+telegram_payload/
+
+# Keys, Certificates, & Sensitive Dumps
+*.pem
+*.key
+*.crt
+cookies.txt
+*.p12
+*.pfx
+

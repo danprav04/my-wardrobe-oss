@@ -1,0 +1,17 @@
+node_modules
+.git
+.svelte-kit
+build
+data
+.env
+.env.*
+!*.example
+wardrobe pictures
+garment-cuts
+local-ai
+*.log
+*.sql.gz
+*.tar.gz
+cookies.txt
+models
+

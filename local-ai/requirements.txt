@@ -1,0 +1,11 @@
+fastapi>=0.115.0
+uvicorn[standard]>=0.32.0
+pydantic>=2.10.0
+pillow>=11.0.0
+numpy>=2.1.0
+aiofiles>=24.1.0
+python-multipart>=0.0.18
+requests>=2.32.0
+rembg>=2.0.76
+onnxruntime-gpu>=1.20.0
+gradio_client>=2.5.0
